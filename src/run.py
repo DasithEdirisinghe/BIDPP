@@ -1,6 +1,6 @@
 import sys
 import data_extration as de
-import Q2 as model
+import train as model
 
 if len(sys.argv) < 4:
     print("Usage: python3 run.py <positive training data> <negative training data> <positive testing data> <negative testing data>")
