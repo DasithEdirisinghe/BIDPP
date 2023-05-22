@@ -241,7 +241,7 @@ def run():
     '''
     Split the Dataset
     '''
-    X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size = 0.2)
+    X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size = 0.2, random_state=2)
 
     important_cols = X.columns
 
