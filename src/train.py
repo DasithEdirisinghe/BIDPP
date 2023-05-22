@@ -209,12 +209,15 @@ def output_results(predict_results):
     predictions_pos.to_csv(f'out/predictions_pos.txt', index=False, header=True, sep='\t')
     predictions_neg.to_csv(f'out/predictions_neg.txt', index=False, header=True, sep='\t')
 
-'''
-Read Files
-'''
-predictor, paac_train, paac_test = read_file('AAC')
+
 
 def run():
+    
+    global predictor, paac_train, paac_test
+    '''
+    Read Files
+    '''
+    predictor, paac_train, paac_test = read_file('AAC')
 
     '''
     Balance the Dataset

@@ -65,4 +65,4 @@ def combineNegativeAndPositiveDFs(negativeFile, positiveFile, feature_type):
 
 def run(TR_pos, TR_neg, TS_pos, TS_neg):
     combineNegativeAndPositiveDFs(f'{dir + raw_data_dir}/{TR_neg}', f'{dir + raw_data_dir}/{TR_pos}', 'AAC').to_csv(f'{dir + processed_data_dir}/TR_AAC.csv', index=False)
-    combineNegativeAndPositiveDFs(f'{dir + raw_data_dir}/{TS_neg}', f'{dir + raw_data_dir}/{TS_pos}', 'AAC').to_csv(f'{dir + processed_data_dir}/TR_AAC.csv', index=False)
+    combineNegativeAndPositiveDFs(f'{dir + raw_data_dir}/{TS_neg}', f'{dir + raw_data_dir}/{TS_pos}', 'AAC').to_csv(f'{dir + processed_data_dir}/TS_AAC.csv', index=False)
