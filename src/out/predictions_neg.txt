@@ -33,7 +33,7 @@ Negative_30	0
 Negative_31	0
 Negative_32	0
 Negative_33	0
-Negative_34	0
+Negative_34	1
 Negative_35	0
 Negative_36	0
 Negative_37	0
@@ -61,7 +61,7 @@ Negative_58	0
 Negative_59	0
 Negative_60	0
 Negative_61	0
-Negative_62	0
+Negative_62	1
 Negative_63	0
 Negative_64	0
 Negative_65	0
@@ -72,7 +72,7 @@ Negative_69	0
 Negative_70	1
 Negative_71	0
 Negative_72	0
-Negative_73	0
+Negative_73	1
 Negative_74	0
 Negative_75	0
 Negative_76	0
@@ -90,7 +90,7 @@ Negative_87	0
 Negative_88	0
 Negative_89	0
 Negative_90	0
-Negative_91	1
+Negative_91	0
 Negative_92	0
 Negative_93	0
 Negative_94	0
@@ -104,7 +104,7 @@ Negative_101	0
 Negative_102	0
 Negative_103	0
 Negative_104	0
-Negative_105	0
+Negative_105	1
 Negative_106	0
 Negative_107	0
 Negative_108	0
