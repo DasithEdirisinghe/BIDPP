@@ -16,3 +16,4 @@
 - cd into the `src` folder: `cd src`
 - Run the application `python3 run.py <training positive file> <training negative file> <testing positive file> <testing negative file>` 
 - Ex: `python3 run.py TR_pos_SPIDER.txt TR_neg_SPIDER.txt TS_pos_SPIDER.txt TS_neg_SPIDER.txt`
+- The results will be saved in the `src/out` folder
