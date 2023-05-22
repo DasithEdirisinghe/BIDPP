@@ -31,14 +31,6 @@ def extractFeatureDF(protein_ids, protein_sequences, feature_type, negative):
             protein = PyPro.GetProDes(protein_sequences[i])
             if feature_type == 'AAC':
                 extractedFeatures = protein.GetAAComp()
-            elif feature_type == 'APAAC':
-                extractedFeatures = protein.GetAPAAC()
-            elif feature_type == 'CTD':
-                extractedFeatures = protein.GetCTD()
-            elif feature_type == 'PAAC':
-                extractedFeatures = protein.GetPAAC()
-            elif feature_type == 'DPC':
-                extractedFeatures = protein.GetDPComp()
             # convert dictionary to pandas dataframe
             df1 = pd.DataFrame.from_dict(extractedFeatures, orient='index').transpose()
             df1['id'] = protein_ids[i][1:]
