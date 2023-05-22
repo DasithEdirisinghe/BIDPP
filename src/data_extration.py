@@ -44,7 +44,7 @@ def extractFeatureDF(protein_ids, protein_sequences, feature_type, negative):
             df1['id'] = protein_ids[i][1:]
             # add dataframe to main dataframe with df.concat
             df = pd.concat([df, df1], ignore_index=True)
-            print(feature_type, f"Extracted features for sequence {i}", negative)
+            # print(feature_type, f"Extracted features for sequence {i}", negative)
         except ZeroDivisionError:
             print(f"Skipping sequence {i} due to ZeroDivisionError")
             continue
