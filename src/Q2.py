@@ -25,7 +25,7 @@ import xgboost as xgb
 from catboost import CatBoostClassifier
 from sklearn.pipeline import Pipeline
 
-dir = '../Data/'
+dir = 'Data/'
 processed_data_dir = 'processed_data'
 
 def read_file(feature):
@@ -183,7 +183,7 @@ def report(y_true, y_pred):
     df['Combined Score'] = combined_score
 
     print(df)
-    df.to_csv(f'../out/classification_metrics.csv', index=False)
+    df.to_csv(f'out/classification_metrics.csv', index=False)
 
 def output_results(predict_results):
     results = pd.DataFrame({'predicted_values': predict_results})
@@ -206,93 +206,94 @@ def output_results(predict_results):
     predictions_pos = predictions_pos.drop('Numeric', axis=1)
 
 
-    predictions_pos.to_csv(f'../out/predictions_pos.txt', index=False, header=True, sep='\t')
-    predictions_neg.to_csv(f'../out/predictions_neg.txt', index=False, header=True, sep='\t')
+    predictions_pos.to_csv(f'out/predictions_pos.txt', index=False, header=True, sep='\t')
+    predictions_neg.to_csv(f'out/predictions_neg.txt', index=False, header=True, sep='\t')
 
-
-'''
+    '''
 Read Files
 '''
 predictor, paac_train, paac_test = read_file('AAC')
 
-'''
-Balance the Dataset
-'''
-paac_train_bal = balance(paac_train)
+def run():
+
+    '''
+    Balance the Dataset
+    '''
+    paac_train_bal = balance(paac_train)
 
 
-X = paac_train.drop(['id', 'label'], axis=1, inplace=False)
-Y = paac_train['label']
+    X = paac_train.drop(['id', 'label'], axis=1, inplace=False)
+    Y = paac_train['label']
 
-'''
-Feature Importance
-'''
-X_top_k = feature_importance(X,Y)
-preprocessed = pd.concat([paac_train['label'], X_top_k], axis=1)
-preprocessed = pd.concat([paac_train['id'], preprocessed], axis=1)
+    '''
+    Feature Importance
+    '''
+    X_top_k = feature_importance(X,Y)
+    preprocessed = pd.concat([paac_train['label'], X_top_k], axis=1)
+    preprocessed = pd.concat([paac_train['id'], preprocessed], axis=1)
 
-X = preprocessed.drop(['id', 'label'], axis=1, inplace=False)
-Y = preprocessed['label']
+    X = preprocessed.drop(['id', 'label'], axis=1, inplace=False)
+    Y = preprocessed['label']
 
-'''
-Split the Dataset
-'''
-X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size = 0.2)
+    '''
+    Split the Dataset
+    '''
+    X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size = 0.2)
 
-important_cols = X.columns
+    important_cols = X.columns
 
-'''
-Scale the Dataset
-'''
-scaler = StandardScaler()
-normal = ColumnTransformer([('normalize', scaler, important_cols)], remainder = 'passthrough')
-X_train = pd.DataFrame(normal.fit_transform(X_train), columns = important_cols)
-X_val = pd.DataFrame(normal.transform(X_val), columns = important_cols)
+    '''
+    Scale the Dataset
+    '''
+    scaler = StandardScaler()
+    normal = ColumnTransformer([('normalize', scaler, important_cols)], remainder = 'passthrough')
+    X_train = pd.DataFrame(normal.fit_transform(X_train), columns = important_cols)
+    X_val = pd.DataFrame(normal.transform(X_val), columns = important_cols)
 
-joblib.dump(normal, f'../out/{predictor}_normal.joblib')
+    joblib.dump(normal, f'out/{predictor}_normal.joblib')
 
-models = {
-    'SVM': {
-        'model': SVC(C=1, kernel='rbf'),
-        'best_param': None,
-        'best_score': None
-        },
-    'CatBoost': {
-        'model': CatBoostClassifier(),
-        'best_param': None,
-        'best_score': None
-        }
-}
-
-
-'''
-Train the Model
-'''
-pipe = Pipeline([('scaler', normal), ('model', models['SVM']['model'])])
-pipe.fit(X_train, Y_train)
-joblib.dump(pipe, f"../out/{predictor}_model.joblib")
+    models = {
+        'SVM': {
+            'model': SVC(C=1, kernel='rbf'),
+            'best_param': None,
+            'best_score': None
+            },
+        'CatBoost': {
+            'model': CatBoostClassifier(),
+            'best_param': None,
+            'best_score': None
+            }
+    }
 
 
-'''
-Load data
-'''
-predictor_model = joblib.load(f"../out/{predictor}_model.joblib")
-normal = joblib.load(f'../out/{predictor}_normal.joblib')
+    '''
+    Train the Model
+    '''
+    pipe = Pipeline([('scaler', normal), ('model', models['SVM']['model'])])
+    pipe.fit(X_train, Y_train)
+    joblib.dump(pipe, f"out/{predictor}_model.joblib")
 
 
-'''
-Predict the Test dataset
-'''
-features = paac_test.drop(['id', 'label'], axis=1, inplace = False)
-scaled_features = pd.DataFrame(normal.transform(features), columns = important_cols)
-predict_results = pipe.predict(scaled_features)
-report(paac_test.label, predict_results)
+    '''
+    Load data
+    '''
+    predictor_model = joblib.load(f"out/{predictor}_model.joblib")
+    normal = joblib.load(f'out/{predictor}_normal.joblib')
 
 
-'''
-Output the results to a txt file
-'''
-output_results(predict_results)
+    '''
+    Predict the Test dataset
+    '''
+    features = paac_test.drop(['id', 'label'], axis=1, inplace = False)
+    scaled_features = pd.DataFrame(normal.transform(features), columns = important_cols)
+    predict_results = pipe.predict(scaled_features)
+    report(paac_test.label, predict_results)
+
+
+    '''
+    Output the results to a txt file
+    '''
+    output_results(predict_results)
 
 
 
